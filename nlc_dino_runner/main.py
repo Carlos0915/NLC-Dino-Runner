@@ -1,4 +1,5 @@
-import pygame
+from nlc_dino_runner.components.game import Game
 
-print("Testing commit")
-print("hello world")
+if __name__ == 'x__main__':
+    game = Game() #playing = False
+    game.run() #playing = True
