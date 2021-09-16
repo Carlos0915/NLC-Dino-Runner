@@ -105,8 +105,15 @@ class Game:
     def print_menu_elements(self):
         half_screen_height = SCREEN_HEIGHT // 2
 
-        text, text_rect = text_utils.get_centered_message("Press any key to Start")
+
+        if self.death_count < 1:
+            text, text_rect = text_utils.get_centered_message("Press any key to Start")
+        else:
+            text, text_rect = text_utils.get_centered_message("Press any key to Restart")
         self.screen.blit(text, text_rect)
+
+        score_element, score_element_rect = text_utils.get_centered_message('Points:' + str(self.points), height=half_screen_height + 95)
+        self.screen.blit(score_element, score_element_rect)
 
         death_score, death_score_rect = text_utils.get_centered_message("Death count: " + str(self.death_count), height=half_screen_height + 50)
         self.screen.blit(death_score, death_score_rect)

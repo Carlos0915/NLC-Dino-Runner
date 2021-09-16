@@ -20,8 +20,7 @@ class ObstaclesManager:
                 game.playing = False
                 game.death_count += 1
                 break
-            #Rect1.colliderect(Rect2)
-            #Tarea - Score y Cambio de Start y Restart
+
 
     def draw(self, screen):
         for obstacle in self.obstacles_list:
