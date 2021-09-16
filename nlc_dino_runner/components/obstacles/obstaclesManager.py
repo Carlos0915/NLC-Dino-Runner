@@ -6,7 +6,7 @@ from nlc_dino_runner.utils.constants import SMALL_CACTUS
 
 class ObstaclesManager:
 
-    def __init__(self):
+    def _init_(self):
         self.obstacles_list = []
 
     def update(self, game):
@@ -18,9 +18,14 @@ class ObstaclesManager:
             if game.player.dino_rect.colliderect(obstacle.rect):
                 pygame.time.delay(1000)
                 game.playing = False
+                game.death_count += 1
                 break
             #Rect1.colliderect(Rect2)
+            #Tarea - Score y Cambio de Start y Restart
 
     def draw(self, screen):
         for obstacle in self.obstacles_list:
             obstacle.draw(screen)
+
+    def reset_obstacles(self):
+        self.obstacles_list = []
