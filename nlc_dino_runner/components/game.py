@@ -17,10 +17,12 @@ class Game:
         self.playing = False
         self.game_speed = 20
         self.x_pos_bg = 0
+
         self.y_pos_bg = 380
         self.player = Dinosaur()
         self.obstacle_manager = ObstaclesManager()
         self.power_up_manager = PowerUpManager()
+        self.lives = Live()
         self.points = 0
         self.running = True
         self.death_count = 0
@@ -56,6 +58,7 @@ class Game:
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.power_up_manager.draw(self.screen)
+        self.lives.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
 
