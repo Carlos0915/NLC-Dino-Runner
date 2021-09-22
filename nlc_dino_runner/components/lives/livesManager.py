@@ -18,3 +18,4 @@ class LiveManager:
 
     def reset_lives(self):
         self.lives = 5
+

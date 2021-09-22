@@ -39,3 +39,4 @@ class ObstaclesManager:
             obstacle.draw(screen)
     def reset_obstacles(self):
         self.obstacles_list = []
+        
