@@ -6,7 +6,8 @@ from nlc_dino_runner.components.powerups.power_up_manager import PowerUpManager
 from nlc_dino_runner.utils import text_utils
 from nlc_dino_runner.components.dinosaur import Dinosaur
 from nlc_dino_runner.components.obstacles.obstaclesManager import ObstaclesManager
-from nlc_dino_runner.utils.constants import TITLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, BG, FPS, CLOUD
+from nlc_dino_runner.utils.constants import TITLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, BG, FPS, CLOUD, GAME_THEME, \
+    GAME_OVER
 
 
 class Game:
@@ -35,12 +36,15 @@ class Game:
         self.live_manager.reset_lives()
         self.points = 0
         self.playing = True
+        GAME_THEME.play()
         while self.playing:
             self.event()
             self.update()
             self.draw()
 
         self.game_speed = 20
+        GAME_OVER.play()
+
     def event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -48,7 +52,7 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
-        self.obstacle_manager.update(self)
+        self.obstacle_manager.update(self, self.screen)
         self.power_up_manager.update(self.points, self.game_speed, self.player)
     def draw(self):
         self.clock.tick(FPS)
@@ -83,11 +87,11 @@ class Game:
 
     def draw_sky(self):
         image_width = CLOUD.get_width()
-        self.screen.blit(CLOUD, (self.x_pos_bg, self.y_pos_bg + 500))
+        self.screen.blit(CLOUD, (self.x_pos_bg - 1000, self.y_pos_bg - 1000))
 
-        self.screen.blit(CLOUD, (self.x_pos_bg + image_width, self.y_pos_bg))
+        self.screen.blit(CLOUD, (self.x_pos_bg, self.y_pos_bg))
         if self.x_pos_bg <= -image_width:
-            self.screen.blit(CLOUD, (self.x_pos_bg + image_width, self.y_pos_bg))
+            self.screen.blit(CLOUD, (self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed - 30
 
@@ -95,6 +99,8 @@ class Game:
         while self.running:
             if not self.playing:
                 self.show_menu()
+                GAME_THEME.stop()
+
     def show_menu(self):
         self.running = True
         white_color = (255, 255, 255)
@@ -117,6 +123,10 @@ class Game:
         if self.death_count < 1:
             text, text_rect = text_utils.get_centered_message("Press any key to Start")
         else:
+            pygame.time.delay(800)
+            gamerover, gamerover_rect = text_utils.get_centered_message("GAME OVER", height=half_screen_height - 220)
+            self.screen.blit(gamerover, gamerover_rect)
+
             text, text_rect = text_utils.get_centered_message("Press any key to Restart")
             death_score, death_score_rect = text_utils.get_centered_message("Death count: " + str(self.death_count),
                                                                             height=half_screen_height + 50)

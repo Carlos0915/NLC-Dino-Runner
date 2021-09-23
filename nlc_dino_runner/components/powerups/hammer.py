@@ -12,6 +12,7 @@ class Hammer(Sprite):
         self.rect.y = RECT_Y
         self.hammer_speed = 15
 
+
     def update(self):
         self.rect.x += self.hammer_speed
         if self.rect.x > self.rect.width:

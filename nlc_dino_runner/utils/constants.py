@@ -1,7 +1,9 @@
 import pygame
 import os
+from pygame import mixer#AÑADIDO
 
 # Global Constants
+pygame.mixer.init()#AÑADIDO
 TITLE = "Dino Runner"
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
@@ -72,3 +74,13 @@ HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 DEFAULT_TYPE = "default"
 SHIELD_TYPE = "shield"
 HAMMER_TYPE = "hammer"
+DINO_DEAD = pygame.image.load(os.path.join(IMG_DIR, 'Dino/DinoDead.png'))
+
+
+
+GAME_THEME = mixer.Sound('WhatsApp Audio 2021-09-23 at 14.46.27.mpeg')
+POWER_UP_SOUND_SHIELD = mixer.Sound('Super Mario Bros Efecto de sonido PowerUp Descarga gratuita de tonos de llamada_160k.mp3')
+POWER_UP_SOUND_HAMMER = mixer.Sound('Sonido retro Mario (tubo)_160k.mp3')
+LOSE_LIFE = mixer.Sound('What 2021-09-23 at 15.17.35.mpeg')
+POWER_UP_SHIELD_OBSTACLES = mixer.Sound('Efecto de Sonido GOLPE🥊💥_160k.mp3')
+GAME_OVER = mixer.Sound('Gamer over  2021-09-23 at 15.49.47.mpeg')
