@@ -6,7 +6,8 @@ from nlc_dino_runner.components.powerups.power_up_manager import PowerUpManager
 from nlc_dino_runner.utils import text_utils
 from nlc_dino_runner.components.dinosaur import Dinosaur
 from nlc_dino_runner.components.obstacles.obstaclesManager import ObstaclesManager
-from nlc_dino_runner.utils.constants import TITLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, BG, FPS
+from nlc_dino_runner.utils.constants import TITLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, BG, FPS, CLOUD
+
 
 class Game:
     def __init__(self):
@@ -38,6 +39,8 @@ class Game:
             self.event()
             self.update()
             self.draw()
+
+        self.game_speed = 20
     def event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -52,6 +55,7 @@ class Game:
         self.screen.fill((255, 255, 255))
         self.score()
         self.draw_background()
+        self.draw_sky()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.power_up_manager.draw((self.screen))
@@ -66,6 +70,8 @@ class Game:
         score_element, score_element_rect = text_utils.get_score_element(self.points)
         self.screen.blit(score_element, score_element_rect)
         self.player.check_invincibility(self.screen)
+        #self.player.check_hammer(self.screen)
+
     def draw_background(self):
         image_width = BG.get_width()
         self.screen.blit(BG, (self.x_pos_bg, self.y_pos_bg))
@@ -74,6 +80,17 @@ class Game:
             self.screen.blit(BG, (self.x_pos_bg + image_width, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
+
+    def draw_sky(self):
+        image_width = CLOUD.get_width()
+        self.screen.blit(CLOUD, (self.x_pos_bg, self.y_pos_bg + 500))
+
+        self.screen.blit(CLOUD, (self.x_pos_bg + image_width, self.y_pos_bg))
+        if self.x_pos_bg <= -image_width:
+            self.screen.blit(CLOUD, (self.x_pos_bg + image_width, self.y_pos_bg))
+            self.x_pos_bg = 0
+        self.x_pos_bg -= self.game_speed - 30
+
     def execute(self):
         while self.running:
             if not self.playing:

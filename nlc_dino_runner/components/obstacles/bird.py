@@ -12,7 +12,7 @@ class Bird(Obstacles):
 
     def draw(self, screen):
         if self.FPS > 5:
-            self.rect.y = 236
+            self.rect.y = 220
             screen.blit(self.image[1], self.rect)
         else:
             self.rect.y = 250

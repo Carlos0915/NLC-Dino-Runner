@@ -17,9 +17,11 @@ class ObstaclesManager:
             self.obstacles_list.append(random.choice(obstacles_type))
         for obstacle in self.obstacles_list:
             obstacle.update(game.game_speed, self.obstacles_list)
+
             if game.player.dino_rect.colliderect(obstacle.rect):
                 if game.player.shield:
                     self.obstacles_list.remove(obstacle)
+
                 elif game.live_manager.lives > 1:
                     game.live_manager.reduce_lives()
                     game.player.shield = True
@@ -39,4 +41,3 @@ class ObstaclesManager:
             obstacle.draw(screen)
     def reset_obstacles(self):
         self.obstacles_list = []
-        
