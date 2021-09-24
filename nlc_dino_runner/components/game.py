@@ -56,7 +56,7 @@ class Game:
         self.power_up_manager.update(self.points, self.game_speed, self.player)
     def draw(self):
         self.clock.tick(FPS)
-        if (self.points // 1000) % 2 == 1:
+        if (self.points // 5000) % 2 == 1:
             self.screen.fill(DARK_MODE)
         else:
             self.screen.fill(NORMAL_MODE)
