@@ -53,6 +53,7 @@ class Dinosaur(Sprite):
         self.hammer_available = False
         self.hammer_time_up = 0
         self.show_hammer_text = False
+        self.hammer_availables = 0
 
     def update(self, user_input):
         if self.dino_jump:
@@ -85,6 +86,14 @@ class Dinosaur(Sprite):
 
         if self.step_index >= 10:
             self.step_index = 0
+
+        if user_input[pygame.K_SPACE] and self.hammer_available:
+            self.hammer = Hammer(self.dino_rect.x, self.dino_rect.y)
+            self.hammer_availables += 1
+            if self.hammer_availables == 8:
+                self.hammer_available = False
+                self.type = DEFAULT_TYPE
+                self.hammer_availables = 0
 
     def run(self):
         self.image = self.run_img[self.type][self.step_index // 5]

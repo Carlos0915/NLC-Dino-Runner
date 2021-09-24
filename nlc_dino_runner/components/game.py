@@ -7,7 +7,7 @@ from nlc_dino_runner.utils import text_utils
 from nlc_dino_runner.components.dinosaur import Dinosaur
 from nlc_dino_runner.components.obstacles.obstaclesManager import ObstaclesManager
 from nlc_dino_runner.utils.constants import TITLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, BG, FPS, CLOUD, GAME_THEME, \
-    GAME_OVER
+    GAME_OVER, RESET, GAME_OVER_IMG, DARK_MODE, NORMAL_MODE
 
 
 class Game:
@@ -56,7 +56,10 @@ class Game:
         self.power_up_manager.update(self.points, self.game_speed, self.player)
     def draw(self):
         self.clock.tick(FPS)
-        self.screen.fill((255, 255, 255))
+        if (self.points // 1000) % 2 == 1:
+            self.screen.fill(DARK_MODE)
+        else:
+            self.screen.fill(NORMAL_MODE)
         self.score()
         self.draw_background()
         self.draw_sky()
@@ -87,13 +90,12 @@ class Game:
 
     def draw_sky(self):
         image_width = CLOUD.get_width()
-        self.screen.blit(CLOUD, (self.x_pos_bg - 1000, self.y_pos_bg - 1000))
-
+        self.screen.blit(CLOUD, (self.x_pos_bg + 1100, self.y_pos_bg - 200))
         self.screen.blit(CLOUD, (self.x_pos_bg, self.y_pos_bg))
-        if self.x_pos_bg <= -image_width:
-            self.screen.blit(CLOUD, (self.x_pos_bg, self.y_pos_bg))
+        if self.x_pos_bg > +image_width:
+            self.screen.blit(CLOUD, (self.x_pos_bg + 1100, self.y_pos_bg))
             self.x_pos_bg = 0
-        self.x_pos_bg -= self.game_speed - 30
+        self.x_pos_bg += self.game_speed - 30
 
     def execute(self):
         while self.running:
@@ -124,15 +126,15 @@ class Game:
             text, text_rect = text_utils.get_centered_message("Press any key to Start")
         else:
             pygame.time.delay(800)
-            gamerover, gamerover_rect = text_utils.get_centered_message("GAME OVER", height=half_screen_height - 220)
-            self.screen.blit(gamerover, gamerover_rect)
+            self.screen.blit(GAME_OVER_IMG, ((SCREEN_WIDTH // 2) - 200, (SCREEN_HEIGHT // 2) - 200))
 
             text, text_rect = text_utils.get_centered_message("Press any key to Restart")
             death_score, death_score_rect = text_utils.get_centered_message("Death count: " + str(self.death_count),
-                                                                            height=half_screen_height + 50)
+                                                                            height=half_screen_height + 115)
             self.screen.blit(death_score, death_score_rect)
             score, score_rect = text_utils.get_centered_message("FINAL Score: " + str(self.points),
-                                                                height=half_screen_height + 90)
+                                                                height=half_screen_height + 165)
             self.screen.blit(score, score_rect)
+            self.screen.blit(RESET, ((SCREEN_WIDTH // 2) - 40, (SCREEN_HEIGHT // 2) + 25))
         self.screen.blit(text, text_rect)
         self.screen.blit(ICON, ((SCREEN_WIDTH // 2) - 40, (SCREEN_HEIGHT // 2) - 150))

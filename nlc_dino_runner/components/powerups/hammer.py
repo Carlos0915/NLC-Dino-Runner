@@ -20,5 +20,3 @@ class Hammer(Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
-        #CLASE 8 - HAMMER
-        #CLASE 8.1 - HAMMER
